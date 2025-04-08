@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mygame</title>
+</head>
+<body>
+	<script src="main.js"></script>
+
+	<script type="module">
+	import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
+		// Collision handling
+
+			// Start kaboom
+			kaboom({
+			})
+
+			// Load assets
+			loadSprite("bean", "/sprites/head.png")
+			loadSprite("ghosty", "/sprites/coin.png")
+			loadSprite("grass", "/sprites/base.png")
+			loadSprite("steel", "/sprites/metal.png")
+
+			// Define player movement speed
+			const SPEED = 320
+
+			// Add player game object
+			const player = add([
+				sprite("bean"),
+				pos(80, 40),
+				color(),
+				rotate(0),
+
+				area(),
+				body(),
+			])
+
+			// Register input handlers & movement
+			onKeyDown("a", () => {
+				player.move(-SPEED, 0)
+			})
+
+			onKeyDown("d", () => {
+				player.move(SPEED, 0)
+			})
+
+			onKeyDown("w", () => {
+				player.move(0, -SPEED)
+			})
+
+			onKeyDown("s", () => {
+				player.move(0, SPEED)
+			})
+
+			// onKeyDown("q", () => {
+			// 	player.angle -= SPEED * dt()
+			// })
+
+			// onKeyDown("e", () => {
+			// 	player.angle += SPEED * dt()
+			// })
+
+			// Add enemies
+			for (let i = 0; i < 3; i++) {
+
+				const x = rand(0, width())
+				const y = rand(0, height())
+
+				add([
+					sprite("ghosty"),
+					pos(x, y),
+					// Both objects must have area() component to enable collision detection between
+					area(),
+					"coin",
+				])
+
+			}
+
+			add([
+				sprite("grass"),
+				pos(center()),
+				area(),
+				body({ isStatic: true }),
+				"grass",
+			])
+
+			add([
+				sprite("steel"),
+				pos(100, 200),
+				area(),
+				// This will not be static, but have a big mass that's hard to push over
+				body({ mass: 100 }),
+			])
+
+			// .onCollide() is provided by area() component, it registers an event that runs when an objects collides with another object with certain tag
+			// In this case we destroy (remove from game) the enemy when player hits one
+			player.onCollide("coin", (enemy) => {
+				destroy(enemy)
+			})
+
+			// .onCollideUpdate() runs every frame when an object collides with another object
+			player.onCollideUpdate("coin", () => {
+			})
+
+			player.onCollideEnd("grass", (a) => {
+				debug.log("base")
+			})
+
+			// player.onClick(() => {
+			// 	debug.log("player")
+			// })
+
+			// player.onUpdate(() => {
+			// 	if (player.isHovering()) {
+			// 		// player.color = rgb(0, 0, 255)
+			// 	} else {
+			// 		// player.color = rgb()
+			// 	}
+			// })
+
+
+			// debug.inspect = true
+
+
+		</script>
+
+</body>
+</html>
