@@ -28,7 +28,7 @@
 			const player = add([
 				sprite("bean"),
 				scale(.8),
-				pos(80, 40),
+				pos(500, 10),
 				color(),
 				rotate(0),
 				area(),
@@ -44,9 +44,11 @@
 				player.move(SPEED, 0)
 			})
 
-			onKeyDown("w", () => {
-				player.move(0, -SPEED)
-			})
+					onKeyPress("space", () => {
+			if (player.isGrounded()) {
+				player.jump()
+			}
+		})
 
 			onKeyDown("s", () => {
 				player.move(0, SPEED)
@@ -66,38 +68,38 @@
 				const x = rand(0, width())
 				const y = rand(0, height())
 
-				// add([
-				// 	sprite("ghosty"),
-				// 	scale(.3),
-				// 	pos(x, y),
-				// 	area(),
-				// 	"coin",
-				// ])
+				add([
+					sprite("ghosty"),
+					scale(.3),
+					pos(-200,-200),
+					area(),
+					"coin",
+				])
 
 			}
 
 			function spawnTree() {
 				add([
 					sprite("grass"),
-					scale(1),
+					scale(.4),
 					area(),
 					body({ isStatic: true }),
 					pos(width(), height() - 60),
 					anchor("botleft"),
-					move(LEFT, 340),
-
+					move(LEFT, 540),
 					"base",
 				]);
-				wait(rand(0.5, 1.5), () => {
+				wait(rand(.1, .1), () => {
 					spawnTree();
+					// destroy(grass)
 				});
-				}
+			}
 
 				spawnTree();
 				add([
 				sprite("grass"),
 				scale(.4),
-				pos(100,500),
+				pos(500,80),
 				area(),
 				body({ isStatic: true }),
 				"base",
@@ -105,23 +107,54 @@
 
 
 
+			function spawnDead() {
+				add([
+					sprite("ghosty"),
+					scale(.4),
+					area(),
+					body({ isStatic: true }),
+					pos(width(), height() - 90),
+					anchor("botleft"),
+					move(LEFT, 540),
+					"coin",
+				]);
+				wait(rand(.1, .1), () => {
+					spawnDead();
+					// destroy(grass)
+				});
+			}
+
+				spawnDead();
+				add([
+				sprite("ghosty"),
+				scale(.4),
+				pos(500,-200),
+				area(),
+				body({ isStatic: true }),
+				"coin",
+			])
+
+
+
 
 			add([
 				sprite("steel"),
-				scale(.4),
-				pos(100, 600),
+				scale(8),
+				pos(100, 800),
 				area(),
 				body({ mass: 1 }),
 			])
 
 
-			// player.onCollide("coin", (enemy) => {
-			// 	destroy(enemy)
-			// })
 
 
-			// player.onCollideUpdate("coin", () => {
-			// })
+			player.onCollide("coin", (enemy) => {
+				destroy(bean)
+			})
+
+
+			player.onCollideUpdate("coin'", () => {
+			})
 
 			// player.onCollideEnd("grass", (a) => {
 			// 	debug.log("base")
