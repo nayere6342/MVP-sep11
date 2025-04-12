@@ -20,16 +20,17 @@
 			loadSprite("grass", "/sprites/base.png")
 			loadSprite("steel", "/sprites/metal.png")
 
-			// Define player movement speed
-			const SPEED = 320
 
+			// Define player movement speed
+			const SPEED = 520
+			setGravity(3200)
 			// Add player game object
 			const player = add([
 				sprite("bean"),
+				scale(.8),
 				pos(80, 40),
 				color(),
 				rotate(0),
-
 				area(),
 				body(),
 			])
@@ -65,45 +66,66 @@
 				const x = rand(0, width())
 				const y = rand(0, height())
 
-				add([
-					sprite("ghosty"),
-					pos(x, y),
-					// Both objects must have area() component to enable collision detection between
-					area(),
-					"coin",
-				])
+				// add([
+				// 	sprite("ghosty"),
+				// 	scale(.3),
+				// 	pos(x, y),
+				// 	area(),
+				// 	"coin",
+				// ])
 
 			}
 
-			add([
+			function spawnTree() {
+				add([
+					sprite("grass"),
+					scale(1),
+					area(),
+					body({ isStatic: true }),
+					pos(width(), height() - 60),
+					anchor("botleft"),
+					move(LEFT, 340),
+
+					"base",
+				]);
+				wait(rand(0.5, 1.5), () => {
+					spawnTree();
+				});
+				}
+
+				spawnTree();
+				add([
 				sprite("grass"),
-				pos(center()),
+				scale(.4),
+				pos(100,500),
 				area(),
 				body({ isStatic: true }),
-				"grass",
+				"base",
 			])
+
+
+
 
 			add([
 				sprite("steel"),
-				pos(100, 200),
+				scale(.4),
+				pos(100, 600),
 				area(),
-				// This will not be static, but have a big mass that's hard to push over
-				body({ mass: 100 }),
+				body({ mass: 1 }),
 			])
 
-			// .onCollide() is provided by area() component, it registers an event that runs when an objects collides with another object with certain tag
-			// In this case we destroy (remove from game) the enemy when player hits one
-			player.onCollide("coin", (enemy) => {
-				destroy(enemy)
-			})
 
-			// .onCollideUpdate() runs every frame when an object collides with another object
-			player.onCollideUpdate("coin", () => {
-			})
+			// player.onCollide("coin", (enemy) => {
+			// 	destroy(enemy)
+			// })
 
-			player.onCollideEnd("grass", (a) => {
-				debug.log("base")
-			})
+
+			// player.onCollideUpdate("coin", () => {
+			// })
+
+			// player.onCollideEnd("grass", (a) => {
+			// 	debug.log("base")
+			// })
 
 			// player.onClick(() => {
 			// 	debug.log("player")
