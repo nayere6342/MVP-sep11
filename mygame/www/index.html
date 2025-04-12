@@ -23,11 +23,11 @@
 
 			// Define player movement speed
 			const SPEED = 520
-			setGravity(3200)
+			setGravity(2300)
 			// Add player game object
 			const player = add([
 				sprite("bean"),
-				scale(.8),
+				scale(.5),
 				pos(500, 10),
 				color(),
 				rotate(0),
@@ -118,7 +118,7 @@
 					move(LEFT, 540),
 					"coin",
 				]);
-				wait(rand(.1, .1), () => {
+				wait(rand(1, 1.8), () => {
 					spawnDead();
 					// destroy(grass)
 				});
@@ -148,6 +148,8 @@
 
 
 
+
+
 			player.onCollide("coin", (enemy) => {
 				destroy(bean)
 			})
@@ -156,24 +158,7 @@
 			player.onCollideUpdate("coin'", () => {
 			})
 
-			// player.onCollideEnd("grass", (a) => {
-			// 	debug.log("base")
-			// })
 
-			// player.onClick(() => {
-			// 	debug.log("player")
-			// })
-
-			// player.onUpdate(() => {
-			// 	if (player.isHovering()) {
-			// 		// player.color = rgb(0, 0, 255)
-			// 	} else {
-			// 		// player.color = rgb()
-			// 	}
-			// })
-
-
-			// debug.inspect = true
 
 
 		</script>
