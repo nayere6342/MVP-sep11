@@ -12,13 +12,16 @@
 
 			// Start kaboom
 			kaboom({
+				background: [201,253,224]
 			})
 
 			// Load assets
-			loadSprite("bean", "/sprites/head.png")
-			loadSprite("ghosty", "/sprites/coin.png")
-			loadSprite("grass", "/sprites/base.png")
-			loadSprite("steel", "/sprites/metal.png")
+			loadSprite("player", "/sprites/8bit-player.png")
+			loadSprite("coin", "/sprites/8bit-coin.png")
+			loadSprite("base", "/sprites/8bit-baseline.png")
+			loadSprite("plate", "/sprites/8bit-plateform.png")
+			loadSprite("fire", "/sprites/8bit-fire.png")
+			loadSprite("backdrop", "/sprites/8bit-backdrop.png")
 
 
 			// Define player movement speed
@@ -26,9 +29,9 @@
 			setGravity(2300)
 			// Add player game object
 			const player = add([
-				sprite("bean"),
-				scale(.5),
-				pos(500, 10),
+				sprite("player"),
+				scale(.1),
+				pos(100, 400),
 				color(),
 				rotate(0),
 				area(),
@@ -69,27 +72,30 @@
 				const y = rand(0, height())
 
 				add([
-					sprite("ghosty"),
+					sprite("coin"),
 					scale(.3),
-					pos(-200,-200),
+					pos(-900,-900),
 					area(),
 					"coin",
 				])
 
 			}
 
+
+
+
 			function spawnTree() {
 				add([
-					sprite("grass"),
-					scale(.4),
+					sprite("base"),
+					scale(.3),
 					area(),
 					body({ isStatic: true }),
-					pos(width(), height() - 60),
+					pos(width(), height() - 10),
 					anchor("botleft"),
 					move(LEFT, 540),
 					"base",
 				]);
-				wait(rand(.1, .1), () => {
+				wait(rand(.4, .4), () => {
 					spawnTree();
 					// destroy(grass)
 				});
@@ -97,19 +103,19 @@
 
 				spawnTree();
 				add([
-				sprite("grass"),
-				scale(.4),
-				pos(500,80),
+				sprite("plate"),
+				scale(.2),
+				pos(40,420),
 				area(),
 				body({ isStatic: true }),
-				"base",
+				"plate",
 			])
 
 
 
 			function spawnDead() {
 				add([
-					sprite("ghosty"),
+					sprite("coin"),
 					scale(.4),
 					area(),
 					body({ isStatic: true }),
@@ -126,7 +132,7 @@
 
 				spawnDead();
 				add([
-				sprite("ghosty"),
+				sprite("coin"),
 				scale(.4),
 				pos(500,-200),
 				area(),
@@ -137,13 +143,13 @@
 
 
 
-			add([
-				sprite("steel"),
-				scale(8),
-				pos(100, 800),
-				area(),
-				body({ mass: 1 }),
-			])
+			// add([
+			// 	sprite("steel"),
+			// 	scale(8),
+			// 	pos(100, 800),
+			// 	area(),
+			// 	body({ mass: 1 }),
+			// ])
 
 
 
