@@ -12,7 +12,7 @@
 
 
 			kaboom({
-				background: [88,188,132]
+				background: [0]
 			})
 
 			// Load assets
@@ -26,10 +26,10 @@
 			const SPEED = 520
 			setGravity(1600)
 
-			const main = add([
-			text("Jamp!"),
-			pos(700,200),
-			])
+			// const main = add([
+			// text("Jamp!"),
+			// pos(700,200),
+			// ])
 
 
 			const score = add([
@@ -37,10 +37,6 @@
 			pos(24, 24),
 			{ value: 0 },
 		])
-
-
-
-
 
 
 			const player = add([
@@ -54,15 +50,21 @@
 			])
 
 
-			onKeyDown("left", () => { // all the player movement [arrow keys]
-				destroy(text("hi"))
-			})
 
-			onKeyDown("right", () => {
-				player.move(SPEED, 0)
-			})
+			spawnMap();
+				add([
+				sprite("plate"),
+				scale(.2),
+				pos(40,220),
+				area(),
+				body({ isStatic: true }),
+				"plate",
+			])
 
-			onKeyDown("left", () => { // all the player movement [arrow keys]
+
+
+
+			onKeyDown("left", () => { 	// all the player movement [arrow keys]
 				player.move(-SPEED, 0)
 			})
 
@@ -76,7 +78,7 @@
 			}
 		})
 
-		onKeyDown("a", () => { // all the player movement [w,a,d]
+			onKeyDown("a", () => { 	// all the player movement [w,a,d]
 				player.move(-SPEED, 0)
 			})
 
@@ -89,14 +91,6 @@
 				player.jump()
 			}
 		})
-
-
-
-
-
-
-
-
 
 
 			function spawnMap() {
@@ -114,17 +108,6 @@
 					spawnMap();
 				});
 			}
-
-				spawnMap();
-				add([
-				sprite("plate"),
-				scale(.2),
-				pos(40,220),
-				area(),
-				body({ isStatic: true }),
-				"plate",
-			])
-
 
 
 			function spawnDead() {
@@ -153,6 +136,8 @@
 				"fire",
 			])
 
+
+
 			function spawnScore() {
 				add([
 					sprite("coin"),
@@ -166,7 +151,6 @@
 				]);
 				wait(rand(3, 3), () => {
 					spawnScore();
-					// destroy(grass)
 				});
 			}
 
@@ -182,23 +166,43 @@
 
 
 
+			function spawnHit() {
+				add([
+					sprite("backdrop"),
+					scale(.1),
+					area(),
+					body({ isStatic: false }),
+					pos(width(), height() - 220),
+					anchor("botleft"),
+					move(LEFT, 440),
+					"backdrop",
+				]);
+				wait(rand(10, 5), () => {
+					spawnHit();
+				});
+			}
+
+				spawnHit();
+				add([
+				sprite("backdrop"),
+				scale(.4),
+				pos(-900,-2000),
+				area(),
+				body({ isStatic: false }),
+				"backdrop",
+			])
+
+
+
 
 
 			player.onCollide("fire", (enemy) => {
 				destroy(player)
 				const die = add([
-			text("[ GAME OVER ]"),
-			pos(700,200),
-		])
-
+					text("[ GAME OVER ]"),
+					pos(700,200),
+				])
 			})
-
-
-
-
-			// player.onCollideUpdate("coin", (coin) => {
-			// 	destroy(plate)
-			// })
 
 			player.onCollide("coin", (enemy) => {
 				score.value += 1
@@ -211,9 +215,6 @@
 			player.onCollideUpdate("coin", (coin) => {
 				destroy(coin)
 			})
-
-
-
 
 
 
