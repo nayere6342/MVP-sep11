@@ -12,7 +12,7 @@
 
 
 			kaboom({
-				background: [0]
+				background: [50,50,50]
 			})
 
 			// Load assets
@@ -21,7 +21,7 @@
 			loadSprite("base", "/sprites/8bit-baseline.png")
 			loadSprite("plate", "/sprites/8bit-plateform.png")
 			loadSprite("fire", "/sprites/8bit-fire.png")
-			loadSprite("backdrop", "/sprites/8bit-backdrop.png")
+			loadSprite("turtle", "/sprites/8bit-turtle.png")
 
 			const SPEED = 520
 			setGravity(1600)
@@ -104,7 +104,7 @@
 					move(LEFT, 540),
 					"base",
 				]);
-				wait(rand(.2, .2), () => {
+				wait(rand(.4, .4), () => {
 					spawnMap();
 				});
 			}
@@ -121,7 +121,7 @@
 					move(LEFT, 540),
 					"fire",
 				]);
-				wait(rand(2, 1.8), () => {
+				wait(rand(1.7, 2), () => {
 					spawnDead();
 				});
 			}
@@ -168,34 +168,34 @@
 
 			function spawnHit() {
 				add([
-					sprite("backdrop"),
+					sprite("turtle"),
 					scale(.1),
 					area(),
 					body({ isStatic: false }),
 					pos(width(), height() - 220),
 					anchor("botleft"),
 					move(LEFT, 440),
-					"backdrop",
+					"turtle",
 				]);
-				wait(rand(10, 5), () => {
+				wait(rand(3, 5), () => {
 					spawnHit();
 				});
 			}
 
 				spawnHit();
 				add([
-				sprite("backdrop"),
+				sprite("turtle"),
 				scale(.4),
 				pos(-900,-2000),
 				area(),
 				body({ isStatic: false }),
-				"backdrop",
+				"turtle",
 			])
 
 
-
-
-
+			onKeyPressRepeat("z", () => {
+				destroy(player)
+		})
 			player.onCollide("fire", (enemy) => {
 				destroy(player)
 				const die = add([
@@ -207,8 +207,6 @@
 			player.onCollide("coin", (enemy) => {
 				score.value += 1
 				score.text = "Score:" + score.value
-
-
 			})
 
 
