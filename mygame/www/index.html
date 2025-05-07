@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>mygame</title>
+	<title>Jump!</title>
 </head>
 <body>
 	<script src="main.js"></script>
 
 	<script type="module">
 	import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
-		// Collision handling
 
-			// Start kaboom
+
+
 			kaboom({
-				background: [88,188,132]
+				background: [50,50,50]
 			})
 
 			// Load assets
@@ -21,20 +21,22 @@
 			loadSprite("base", "/sprites/8bit-baseline.png")
 			loadSprite("plate", "/sprites/8bit-plateform.png")
 			loadSprite("fire", "/sprites/8bit-fire.png")
-			loadSprite("backdrop", "/sprites/8bit-backdrop.png")
-
-
+			loadSprite("turtle", "/sprites/8bit-turtle.png")
 
 			const SPEED = 520
 			setGravity(1600)
+
+			// const main = add([
+			// text("Jamp!"),
+			// pos(700,200),
+			// ])
+
 
 			const score = add([
 			text("Score:"),
 			pos(24, 24),
 			{ value: 0 },
 		])
-
-
 
 
 			const player = add([
@@ -48,64 +50,8 @@
 			])
 
 
-			onKeyDown("a", () => {
-				player.move(-SPEED, 0)
-			})
 
-			onKeyDown("d", () => {
-				player.move(SPEED, 0)
-			})
-
-			onKeyPress("space", () => {
-			if (player.isGrounded()) {
-				player.jump()
-			}
-		})
-
-			onKeyDown("s", () => {
-				player.move(0, SPEED)
-			})
-
-
-
-
-			// for (let i = 0; i < 3; i++) {
-
-			// 	const x = rand(+20, width())
-			// 	const y = rand(+10, height())
-			// 	const z = rand(+30, height())
-			// 	const i = rand(+30, height())
-
-			// 	add([
-			// 		sprite("coin"),
-			// 		scale(.2),
-			// 		pos(x,y,z,i),
-			// 		area(),
-			// 		"coin",
-			// 	])
-
-			// }
-
-
-
-
-			function spawnMap() {
-				add([
-					sprite("base"),
-					scale(.3),
-					area(),
-					body({ isStatic: true }),
-					pos(width(), height() - 10),
-					anchor("botleft"),
-					move(LEFT, 540),
-					"base",
-				]);
-				wait(rand(.2, .2), () => {
-					spawnMap();
-				});
-			}
-
-				spawnMap();
+			spawnMap();
 				add([
 				sprite("plate"),
 				scale(.2),
@@ -115,6 +61,53 @@
 				"plate",
 			])
 
+
+
+
+			onKeyDown("left", () => { 	// all the player movement [arrow keys]
+				player.move(-SPEED, 0)
+			})
+
+			onKeyDown("right", () => {
+				player.move(SPEED, 0)
+			})
+
+			onKeyPress("up", () => {
+			if (player.isGrounded()) {
+				player.jump()
+			}
+		})
+
+			onKeyDown("a", () => { 	// all the player movement [w,a,d]
+				player.move(-SPEED, 0)
+			})
+
+			onKeyDown("d", () => {
+				player.move(SPEED, 0)
+			})
+
+			onKeyPress("w", () => {
+			if (player.isGrounded()) {
+				player.jump()
+			}
+		})
+
+
+			function spawnMap() {
+				add([
+					sprite("base"), // get the base to come into frame
+					scale(.3),
+					area(),
+					body({ isStatic: true }),
+					pos(width(), height() - 10),
+					anchor("botleft"),
+					move(LEFT, 540),
+					"base",
+				]);
+				wait(rand(.4, .4), () => {
+					spawnMap();
+				});
+			}
 
 
 			function spawnDead() {
@@ -128,7 +121,7 @@
 					move(LEFT, 540),
 					"fire",
 				]);
-				wait(rand(2, 1.8), () => {
+				wait(rand(1.7, 2), () => {
 					spawnDead();
 				});
 			}
@@ -143,6 +136,8 @@
 				"fire",
 			])
 
+
+
 			function spawnScore() {
 				add([
 					sprite("coin"),
@@ -156,7 +151,6 @@
 				]);
 				wait(rand(3, 3), () => {
 					spawnScore();
-					// destroy(grass)
 				});
 			}
 
@@ -172,39 +166,56 @@
 
 
 
+			function spawnHit() {
+				add([
+					sprite("turtle"),
+					scale(.1),
+					area(),
+					body({ isStatic: false }),
+					pos(width(), height() - 220),
+					anchor("botleft"),
+					move(LEFT, 440),
+					"turtle",
+				]);
+				wait(rand(3, 5), () => {
+					spawnHit();
+				});
+			}
+
+				spawnHit();
+				add([
+				sprite("turtle"),
+				scale(.4),
+				pos(-900,-2000),
+				area(),
+				body({ isStatic: false }),
+				"turtle",
+			])
 
 
-
-
-
-
-
+			onKeyPressRepeat("x", () => {
+				const main = add ([
+					text("Jump!")
+					pos(700,200)
+				])
+		})
 			player.onCollide("fire", (enemy) => {
 				destroy(player)
 				const die = add([
-			text("[ GAME OVER ]"),
-			pos(500,200),
-		])
-
-			})
-
-
-			player.onCollideUpdate("fire'", (fire) => {
-				destroyAll(fire)
+					text("[ GAME OVER ]"),
+					pos(700,200),
+				])
 			})
 
 			player.onCollide("coin", (enemy) => {
 				score.value += 1
 				score.text = "Score:" + score.value
-
-
 			})
 
 
 			player.onCollideUpdate("coin", (coin) => {
 				destroy(coin)
 			})
-
 
 
 
