@@ -23,6 +23,7 @@
 			loadSprite("fire", "/sprites/8bit-fire.png")
 			loadSprite("turtle", "/sprites/8bit-turtle.png")
 
+
 			const SPEED = 520
 			setGravity(1600)
 
@@ -60,7 +61,6 @@
 				body({ isStatic: true }),
 				"plate",
 			])
-
 
 
 
@@ -199,6 +199,57 @@
 				"turtle",
 			])
 
+            function spawnFire() {
+				add([
+					sprite("fire"),
+					scale(.1),
+					area(),
+					body({ isStatic: true }),
+					pos(width(), height() - 500),
+					anchor("botleft"),
+					move(LEFT, 540),
+					"fire",
+				]);
+				wait(rand(10, 15), () => {
+					spawnFire();
+				});
+			}
+
+				spawnFire();
+				add([
+				sprite("fire"),
+				scale(.2),
+				pos(500,-2000),
+				area(),
+				body({ isStatic: true }),
+				"fire",
+			])
+
+			function spawnDD() {
+				add([
+					sprite("base"),
+					scale(.1),
+					area(),
+					body({ isStatic: true }),
+					pos(width(), height() - 600),
+					anchor("botleft"),
+					move(LEFT, 540),
+					"base",
+				]);
+				wait(rand(10, 15), () => {
+					spawnDD();
+				});
+			}
+
+				spawnDD();
+				add([
+				sprite("base"),
+				scale(.8),
+				pos(500,-2000),
+				area(),
+				body({ isStatic: true }),
+				"base",
+			])
 
 			player.onCollide("fire", (enemy) => {
 				destroy(player)
@@ -217,6 +268,8 @@
 			player.onCollideUpdate("coin", (coin) => {
 				destroy(coin)
 			})
+
+
 
 
 
