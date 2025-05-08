@@ -93,6 +93,13 @@
 		})
 
 
+		//onKeyPressRepeat("x", () => {
+				//const main = add ([
+					//text("Jump!")
+					//pos(700,200)
+				//])
+		//})
+
 			function spawnMap() {
 				add([
 					sprite("base"), // get the base to come into frame
@@ -193,9 +200,6 @@
 			])
 
 
-			onKeyPressRepeat("z", () => {
-				destroy(player)
-		})
 			player.onCollide("fire", (enemy) => {
 				destroy(player)
 				const die = add([
