@@ -61,6 +61,26 @@
 				"plate",
 			])
 
+				const main = add ([
+					text("Jump!", {
+						size: 58, // 48 pixels tall
+       					width: 320, // it'll wrap to next line when width exceeds this value
+        				font: "sans-serif",
+					}),
+					pos(700, 200),
+				])
+
+				const main2 = add ([
+					text("Get off the plate to start:", {
+						size: 28, // 48 pixels tall
+       					width: 320, // it'll wrap to next line when width exceeds this value
+        				font: "sans-serif",
+					}),
+					pos(600, 300),
+				])
+
+
+
 	// --------------------------------------
 
 	// Controls:
@@ -89,19 +109,16 @@
 				player.move(SPEED, 0)
 			})
 
-			onKeyPress("w", () => {
+			onKeyDown("space", () => {
 			if (player.isGrounded()) {
 				player.jump()
 			}
 		})
 
 
-		//onKeyPressRepeat("x", () => { // if .player press [keyValue] it displays text;
-				//const main = add ([
-					//text("Jump!")
-					//pos(700,200)
-				//])
-		//})
+		onKeyPressRepeat("a", () => { // if .player press [keyValue] it displays text;
+			destroy(main)
+		})
 
 	// --------------------------------------
 
@@ -244,8 +261,12 @@
 			player.onCollide("fire", (enemy) => { // when .player hits the fire it destroy .player
 				destroy(player)
 				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
-					text("[ GAME OVER ]"),
-					pos(700,200),
+				pos(700,200),
+					text("[ GAME OVER ]", {
+						size: 38, // 48 pixels tall
+       					width: 320, // it'll wrap to next line when width exceeds this value
+        				font: "sans-serif",
+					}),
 				])
 			})
 
@@ -255,7 +276,7 @@
 			})
 
 
-			player.onCollideUpdate("coin", (coin) => { // if .player hits .coin tell .coin that it was hit then distroy itself if so... 
+			player.onCollideUpdate("coin", (coin) => { // if .player hits .coin tell .coin that it was hit then distroy itself if so...
 				destroy(coin)
 			})
 
