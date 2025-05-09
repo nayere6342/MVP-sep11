@@ -26,6 +26,7 @@
 			loadSprite("plate", "/sprites/8bit-plateform.png")
 			loadSprite("fire", "/sprites/8bit-fire.png")
 			loadSprite("turtle", "/sprites/8bit-turtle.png")
+			loadSprite("dragen", "/sprites/8bit-dragen.png")
 
 
 			const SPEED = 520
@@ -79,6 +80,23 @@
 					pos(600, 300),
 				])
 
+			//  for (let i = 0; i < 30; i++) {
+
+			// 	const x = rand(+30, width())
+			//  	const y = rand(+50, height())
+			//  	const z = rand(+40, height())
+			//  	const i = rand(+30, height())
+
+			//  	add([
+			//  		sprite("coin"),
+			//  		scale(.2),
+			//  		pos(x,y,z,i),
+			//  		area(),
+			//  		"coin",
+			//  	])
+
+			//  }
+
 
 
 	// --------------------------------------
@@ -118,6 +136,7 @@
 
 		onKeyPressRepeat("a", () => { // if .player press [keyValue] it displays text;
 			destroy(main)
+			destroy(main2)
 		})
 
 	// --------------------------------------
@@ -228,14 +247,14 @@
 
 			function spawnFlyingRunner() {
 				add([
-					sprite("base"), // `movingsprite` that -is- in .base
-					scale(.1),
+					sprite("dragen"), // `movingsprite` that -is- in .base
+					scale(.2),
 					area(),
 					body({ isStatic: true }),
-					pos(width(), height() - 450),
+					pos(width(), height() - 350),
 					anchor("botleft"),
 					move(LEFT, 540),
-					"base",
+					"dragen",
 				]);
 				wait(rand(5, 6), () => {
 					spawnFlyingRunner();
@@ -244,12 +263,12 @@
 
 				spawnFlyingRunner();
 				add([
-				sprite("base"),
-				scale(.8),
+				sprite("dragen"),
+				scale(.2),
 				pos(500,-2000),
 				area(),
 				body({ isStatic: true }),
-				"base",
+				"dragen",
 			])
 
 	// --------------------------------------
@@ -259,6 +278,19 @@
 	// --------------------------------------
 
 			player.onCollide("fire", (enemy) => { // when .player hits the fire it destroy .player
+				destroy(player)
+				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+				pos(700,200),
+					text("[ GAME OVER ]", {
+						size: 38, // 48 pixels tall
+       					width: 320, // it'll wrap to next line when width exceeds this value
+        				font: "sans-serif",
+					}),
+				])
+			})
+
+
+			player.onCollide("dragen", (enemy) => { // when .player hits the fire it destroy .player
 				destroy(player)
 				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,200),
