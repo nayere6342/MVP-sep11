@@ -17,7 +17,7 @@
 	// --------------------------------------
 
 			kaboom({
-				background: [50,50,50]
+				background: [20,20,20]
 			})
 
 			loadSprite("player", "/sprites/8bit-player.png")
@@ -27,6 +27,8 @@
 			loadSprite("fire", "/sprites/8bit-fire.png")
 			loadSprite("turtle", "/sprites/8bit-turtle.png")
 			loadSprite("dragen", "/sprites/8bit-dragen.png")
+			loadSprite("star", "/sprites/8bit-star.png")
+			loadSprite("blocker", "/sprites/color-blocker.png")
 
 
 			const SPEED = 520
@@ -34,7 +36,11 @@
 
 
 			const score = add([ // set score for .player
-			text("Score:"),
+			text("Score: ", {
+				size: 38, // 38 pixels tall
+       			width: 320, // it'll wrap to next line when width exceeds this value
+        		font: "sans-serif",
+			}),
 			pos(24, 24),
 			{ value: 0 },
 		])
@@ -52,11 +58,13 @@
 
 
 
+
+
 			spawnFloorPoint(); // this is where .player will start
 				add([
 				sprite("plate"),
 				scale(.2),
-				pos(40,220),
+				pos(40,120),
 				area(),
 				body({ isStatic: true }),
 				"plate",
@@ -64,8 +72,8 @@
 
 				const main = add ([
 					text("Jump!", {
-						size: 58, // 48 pixels tall
-       					width: 320, // it'll wrap to next line when width exceeds this value
+						size: 58,
+       					width: 320,
         				font: "sans-serif",
 					}),
 					pos(700, 200),
@@ -73,14 +81,14 @@
 
 				const main2 = add ([
 					text("Get off the plate to start:", {
-						size: 28, // 48 pixels tall
-       					width: 320, // it'll wrap to next line when width exceeds this value
+						size: 28,
+       					width: 320,
         				font: "sans-serif",
 					}),
 					pos(600, 300),
 				])
 
-			//  for (let i = 0; i < 30; i++) {
+			//  for (let i = 0; i < 20; i++) {
 
 			// 	const x = rand(+30, width())
 			//  	const y = rand(+50, height())
@@ -88,11 +96,11 @@
 			//  	const i = rand(+30, height())
 
 			//  	add([
-			//  		sprite("coin"),
-			//  		scale(.2),
+			//  		sprite("star"),
+			//  		scale(.3),
 			//  		pos(x,y,z,i),
 			//  		area(),
-			//  		"coin",
+			//  		"star",
 			//  	])
 
 			//  }
@@ -117,7 +125,7 @@
 			if (player.isGrounded()) {
 				player.jump()
 			}
-		})
+			})
 
 			onKeyDown("a", () => { 	// all .player movement [W,A,D - keyBinds]
 				player.move(-SPEED, 0)
@@ -128,6 +136,12 @@
 			})
 
 			onKeyDown("space", () => {
+			if (player.isGrounded()) {
+				player.jump()
+			}
+		})
+
+			onKeyDown("w", () => {
 			if (player.isGrounded()) {
 				player.jump()
 			}
@@ -251,12 +265,12 @@
 					scale(.2),
 					area(),
 					body({ isStatic: true }),
-					pos(width(), height() - 350),
+					pos(width(), height() - 352),
 					anchor("botleft"),
 					move(LEFT, 540),
 					"dragen",
 				]);
-				wait(rand(5, 6), () => {
+				wait(rand(10, 20), () => {
 					spawnFlyingRunner();
 				});
 			}
@@ -282,7 +296,15 @@
 				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,200),
 					text("[ GAME OVER ]", {
-						size: 38, // 48 pixels tall
+						size: 38, // 38 pixels tall
+       					width: 320, // it'll wrap to next line when width exceeds this value
+        				font: "sans-serif",
+					}),
+				])
+				const die2 = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+				pos(700,205),
+					text("[ GAME OVER ]", {
+						size: 38, // 38 pixels tall
        					width: 320, // it'll wrap to next line when width exceeds this value
         				font: "sans-serif",
 					}),
@@ -295,16 +317,17 @@
 				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,200),
 					text("[ GAME OVER ]", {
-						size: 38, // 48 pixels tall
+						size: 38, // 38 pixels tall
        					width: 320, // it'll wrap to next line when width exceeds this value
         				font: "sans-serif",
 					}),
 				])
 			})
 
+
 			player.onCollide("coin", (enemy) => { // if .player hits .coin +1 to score then display [newValue]
 				score.value += 1
-				score.text = "Score:" + score.value
+				Fscore.text = "Score: " + Fscore.value
 			})
 
 
