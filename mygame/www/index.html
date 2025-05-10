@@ -51,7 +51,6 @@
 				scale(.1),
 				pos(100, 100),
 				color(),
-				rotate(0),
 				area(),
 				body(),
 			])
@@ -61,7 +60,7 @@
 
 
 			spawnFloorPoint(); // this is where .player will start
-				add([
+				const plate = add([
 				sprite("plate"),
 				scale(.2),
 				pos(40,120),
@@ -77,7 +76,9 @@
         				font: "sans-serif",
 					}),
 					pos(700, 200),
+					// rotate(5),
 				])
+
 
 				const main2 = add ([
 					text("Get off the plate to start:", {
@@ -90,15 +91,11 @@
 
 			//  for (let i = 0; i < 20; i++) {
 
-			// 	const x = rand(+30, width())
-			//  	const y = rand(+50, height())
-			//  	const z = rand(+40, height())
-			//  	const i = rand(+30, height())
 
 			//  	add([
 			//  		sprite("star"),
 			//  		scale(.3),
-			//  		pos(x,y,z,i),
+			//  		pos(x,y,z),
 			//  		area(),
 			//  		"star",
 			//  	])
@@ -148,9 +145,36 @@
 		})
 
 
-		onKeyPressRepeat("a", () => { // if .player press [keyValue] it displays text;
+		onKeyPressRepeat("a", () => { // if .player press [keyValue] it stop displays text;
 			destroy(main)
 			destroy(main2)
+		})
+		onKeyPressRepeat("d", () => {
+			destroy(main)
+			destroy(main2)
+		})
+		onKeyPressRepeat("w", () => {
+			destroy(main)
+			destroy(main2)
+		})
+		onKeyPressRepeat("right", () => {
+			destroy(main)
+			destroy(main2)
+		})
+		onKeyPressRepeat("left", () => {
+			destroy(main)
+			destroy(main2)
+		})
+		onKeyPressRepeat("up", () => {
+			destroy(main)
+			destroy(main2)
+		})
+		onKeyPressRepeat("space", () => {
+			destroy(main)
+			destroy(main2)
+		})
+		onKeyPressRepeat("space", () => {
+
 		})
 
 	// --------------------------------------
@@ -309,6 +333,29 @@
         				font: "sans-serif",
 					}),
 				])
+			const player2 = add([
+				sprite("player"),
+				scale(.1),
+				pos(player.pos),
+				color(255,149,149),
+				area(),
+				// body({ isStatic: true }),
+			])
+
+			for (let i = 0; i < 500; i++) {
+
+			const x = rand(+30, width())
+			const y = rand(+50, height())
+			const z = rand(+40, height())
+
+			const star = add([
+			 		sprite("star"),
+			 		scale(.3),
+			 		pos(x,y,z),
+			 		area(),
+			 		"star",
+			 	])
+			 }
 			})
 
 
@@ -322,18 +369,53 @@
         				font: "sans-serif",
 					}),
 				])
+				const die2 = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+				pos(700,205),
+					text("[ GAME OVER ]", {
+						size: 38, // 38 pixels tall
+       					width: 320, // it'll wrap to next line when width exceeds this value
+        				font: "sans-serif",
+					}),
+				])
+			const player2 = add([
+				sprite("player"),
+				scale(.1),
+				pos(player.pos),
+				color(255,149,149),
+				area(),
+				// body({ isStatic: true }),
+			])
+
+			for (let i = 0; i < 500; i++) {
+
+			const x = rand(+30, width())
+			const y = rand(+50, height())
+			const z = rand(+40, height())
+
+			const star = add([
+			 		sprite("star"),
+			 		scale(.3),
+			 		pos(x,y,z),
+			 		area(),
+			 		"star",
+			 	])
+			 }
 			})
 
 
 			player.onCollide("coin", (enemy) => { // if .player hits .coin +1 to score then display [newValue]
 				score.value += 1
-				Fscore.text = "Score: " + Fscore.value
+				score.text = "Score: " + score.value
+				if (score.value === 1) {
+					destroy(plate)
+				}
 			})
 
 
 			player.onCollideUpdate("coin", (coin) => { // if .player hits .coin tell .coin that it was hit then distroy itself if so...
 				destroy(coin)
 			})
+
 
 
 		</script>
