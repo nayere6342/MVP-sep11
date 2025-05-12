@@ -166,9 +166,9 @@
 			destroy(main)
 			destroy(main2)
 		})
-		onKeyPressRepeat("space", () => {
 
-		})
+		// onKeyPressRepeat("space", () => {
+		// })
 
 	// --------------------------------------
 
@@ -351,6 +351,7 @@
 		})
 
 
+		
 			player.onCollide("dragen", (enemy) => { // when .player hits the fire it destroy .player
 				destroy(player)
 				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
@@ -407,6 +408,7 @@
 			player.onCollideUpdate("coin", (coin) => { // if .player hits .coin tell .coin that it was hit then distroy itself if so...
 				destroy(coin)
 			})
+
 
 
 
