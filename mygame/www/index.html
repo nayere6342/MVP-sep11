@@ -12,32 +12,149 @@
 
 	// --------------------------------------
 
-	// Basic Set-up:
+	// Basic Setup:
 
 	// --------------------------------------
 
 			kaboom({
-				background: [20,20,20]
+				background: [0,0,0]
 			})
 
 			loadSprite("player", "sprites/8bit-player.png")
 			loadSprite("coin", "sprites/8bit-coin.png")
+			loadSprite("backdrop", "sprites/8bit-backdrop.png")
 			loadSprite("base", "sprites/8bit-baseline.png")
 			loadSprite("plate", "sprites/8bit-plateform.png")
 			loadSprite("fire", "sprites/8bit-fire.png")
 			loadSprite("turtle", "sprites/8bit-turtle.png")
-			loadSprite("dragen", "sprites/8bit-dragen.png")
+			loadSprite("dragon", "sprites/8bit-dragon.png")
 			loadSprite("star", "sprites/8bit-star.png")
+			loadSprite("drink", "sprites/8bit-energydrink.png")
 			loadSprite("NOTXT", "sprites/notextid.png")
-		
-
 
 			const SPEED = 520
 				setGravity(1600)
 
 
+	// --------------------------------------
+
+	// Main Manu:
+
+	// --------------------------------------
+
+				scene("Menu", () => {
+					const backdrop = add([
+						sprite("backdrop"),
+						scale(1),
+						pos(1600,0),
+						color(199, 244, 95),
+						area(),
+						rotate(90),
+						body({ isStatic: true }),
+					])
+					add([
+						text("Jump!", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(10, 10),
+					]);
+					add([
+						text("[space] To Play", {
+							size: 80,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(10, 530),
+					]);
+					add([
+						text("By: Nayer Ebraheim", {
+							size: 50,
+        					font: "sans-serif",
+						}),
+						pos(10, 700),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(940, 0),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(1000, 100),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(940, 200),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(980, 300),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(1000, 400),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(940, 500),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(980, 600),
+					]);
+					add([
+						text("JUMP", {
+							size: 100,
+       						width: 320,
+        					font: "sans-serif",
+						}),
+						pos(1050, 700),
+					]);
+					onKeyPress("space", () => {
+						go("Game");
+					})
+				});
+			go("Menu");
+
+
+	// --------------------------------------
+
+	// Game Setup:
+
+	// --------------------------------------
+
+				scene("Game", () => {
 			const score = add([ // set score for .player
-				text("Score: ", {
+				text("Score: 0", {
 					size: 38, // 38 pixels tall
        				width: 320, // it'll wrap to next line when width exceeds this value
         			font: "sans-serif",
@@ -45,7 +162,15 @@
 				pos(24, 24),
 				{ value: 0 },
 			])
-
+			const powerup = add([ // set score for .player
+				text("", {
+					size: 38, // 38 pixels tall
+       				width: 320, // it'll wrap to next line when width exceeds this value
+        			font: "sans-serif",
+				}),
+				pos(1100, 24),
+				{ value: 0 },
+			])
 
 
 			const player = add([
@@ -67,16 +192,6 @@
 				area(),
 				body({ isStatic: true }),
 				"plate",
-			])
-
-			const main = add ([
-				text("Jump!", {
-					size: 58,
-       				width: 320,
-        			font: "sans-serif",
-				}),
-				pos(700, 200),
-				rotate(5),
 			])
 
 
@@ -106,7 +221,7 @@
 				player.move(SPEED, 0)
 			})
 
-			onKeyPress("up", () => {
+			onKeyDown("up", () => {
 			if (player.isGrounded()) {
 				player.jump()
 			}
@@ -120,8 +235,28 @@
 				player.move(SPEED, 0)
 			})
 
+	 // power-up controls
+
 			onKeyDown("space", () => {
 			if (player.isGrounded()) {
+				player.jump()
+			}
+		})
+
+			onKeyDown("space", () => {
+			if (powerup.value === 1) {
+				player.jump()
+			}
+		})
+
+			onKeyDown("w", () => {
+			if (powerup.value === 1) {
+				player.jump()
+			}
+		})
+
+			onKeyDown("up", () => {
+			if (powerup.value === 1) {
 				player.jump()
 			}
 		})
@@ -140,36 +275,27 @@
 	// --------------------------------------
 
 		onKeyPressRepeat("a", () => { // if .player press [keyValue] it stop displays text;
-			destroy(main)
 			destroy(main2)
 		})
 		onKeyPressRepeat("d", () => {
-			destroy(main)
 			destroy(main2)
 		})
 		onKeyPressRepeat("w", () => {
-			destroy(main)
 			destroy(main2)
 		})
 		onKeyPressRepeat("right", () => {
-			destroy(main)
 			destroy(main2)
 		})
 		onKeyPressRepeat("left", () => {
-			destroy(main)
 			destroy(main2)
 		})
 		onKeyPressRepeat("up", () => {
-			destroy(main)
 			destroy(main2)
 		})
 		onKeyPressRepeat("space", () => {
-			destroy(main)
 			destroy(main2)
 		})
 
-		// onKeyPressRepeat("space", () => {
-		// })
 
 	// --------------------------------------
 
@@ -245,6 +371,7 @@
 				pos(500,-2000),
 				area(),
 				body({ isStatic: true }),
+				offscreen({ destroy: true }),
 				"coin",
 			])
 
@@ -252,7 +379,7 @@
 
 			function spawnRunner() {
 				add([
-					sprite("turtle"), // `movingsprite` that is not in .base
+					sprite("turtle"), // `moving sprite` that is not in .base
 					scale(.1),
 					area(),
 					body({ isStatic: false }), // since .base + all other things moving the sprite that is `notStatic` so that it looks like it's moving
@@ -273,20 +400,21 @@
 				pos(-900,-2000),
 				area(),
 				body({ isStatic: false }),
+				offscreen({ destroy: true }),
 				"turtle",
 			])
 
 
 			function spawnFlyingRunner() {
 				add([
-					sprite("dragen"), // `movingsprite` that -is- in .base
+					sprite("dragon"), // `moving sprite` that -is- in .base
 					scale(.2),
 					area(),
 					body({ isStatic: true }),
 					pos(width(), height() - 352),
 					anchor("botleft"),
 					move(LEFT, 540),
-					"dragen",
+					"dragon",
 				]);
 				wait(rand(10, 20), () => {
 					spawnFlyingRunner();
@@ -295,12 +423,41 @@
 
 				spawnFlyingRunner();
 				add([
-				sprite("dragen"),
+				sprite("dragon"),
 				scale(.2),
 				pos(500,-2000),
 				area(),
 				body({ isStatic: true }),
-				"dragen",
+				"dragon",
+			])
+
+			function spawnEnergy() {
+				add([
+					sprite("drink"), // `moving sprite` that is not in .base
+					scale(.1),
+					rotate(20),
+					area(),
+					body({ isStatic: true }), // since .base + all other things moving the sprite that is `notStatic` so that it looks like it's moving
+					pos(width(), height() - 220),
+					anchor("botleft"),
+					move(LEFT, 440),
+					"drink",
+				]);
+				wait(rand(10, 15), () => {
+					spawnEnergy();
+			});
+		}
+
+				spawnEnergy();
+				add([
+				sprite("drink"),
+				scale(.1),
+				rotate(20),
+				pos(-900,-2000),
+				area(),
+				body({ isStatic: false }),
+				offscreen({ destroy: true }),
+				"drink",
 			])
 
 	// --------------------------------------
@@ -310,16 +467,19 @@
 	// --------------------------------------
 
 			player.onCollide("fire", (enemy) => { // when .player hits the fire it destroy .player
+				wait(rand(2), () => {
+					go("Game")
+				});
 				destroy(player)
-				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+				const die = add([ // since kaboom doesn't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,200),
 					text("[ GAME OVER ]", {
-						size: 38, // 38 pixels tall
-       					width: 320, // it'll wrap to next line when width exceeds this value
+						size: 38,
+       					width: 320,
         				font: "sans-serif",
 				}),
 			])
-				const die2 = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+				const die2 = add([ // since kaboom doesn't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,205),
 					text("[ GAME OVER ]", {
 						size: 38,
@@ -329,7 +489,7 @@
 			])
 
 
-			const player2 = add([ // once .player loses, it's repleased by a look alike.
+			const player2 = add([ // once .player loses, it's replaced by a look alike.
 				sprite("player"),
 				scale(.1),
 				pos(player.pos),
@@ -337,7 +497,7 @@
 				area(),
 			])
 
-			for (let i = 0; i < 50; i++) { // 50 random star around screen to show .playee lost
+			for (let i = 0; i < 50; i++) { // 50 random star around screen to show .player lost
 				const x = rand(+30, width())
 				const y = rand(+50, height())
 				const z = rand(+40, height())
@@ -352,35 +512,38 @@
 		})
 
 
-		
-			player.onCollide("dragen", (enemy) => { // when .player hits the fire it destroy .player
+
+			player.onCollide("dragon", (enemy) => { // when .player hits the dragon it destroy .player
+			wait(rand(2), () => {
+					go("Game")
+				});
 				destroy(player)
-				const die = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+				const die = add([ // since kaboom doesn't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,200),
 					text("[ GAME OVER ]", {
-						size: 38, // 38 pixels tall
-       					width: 320, // it'll wrap to next line when width exceeds this value
+						size: 38,
+       					width: 320,
         				font: "sans-serif",
 					}),
-				])
-				const die2 = add([ // since kaboom dosen't like no .player model it folds back onto itself, this would brick the game instead it displays text:
+			])
+				const die2 = add([ // since kaboom doesn't like no .player model it folds back onto itself, this would brick the game instead it displays text:
 				pos(700,205),
 					text("[ GAME OVER ]", {
 						size: 38,
        					width: 320,
         				font: "sans-serif",
 					}),
-				])
+			])
 
-			const player2 = add([ // once .player loses, it's repleased by a look alike.
+			const player2 = add([ // once .player loses, it's replaced by a look alike.
 				sprite("player"),
 				scale(.1),
 				pos(player.pos),
 				color(255,149,149),
 				area(),
-			])
+		])
 
-			for (let i = 0; i < 50; i++) { // 50 random star around screen to show .playee lost// 50 random star around screen to show .playee lost
+			for (let i = 0; i < 50; i++) { // 50 random star around screen to show .player lost// 50 random star around screen to show .player lost
 
 			const x = rand(+30, width())
 			const y = rand(+50, height())
@@ -394,7 +557,7 @@
 			 		"star",
 			 	])
 			 }
-			})
+		})
 
 
 			player.onCollide("coin", (enemy) => { // if .player hits .coin +1 to score then display [newValue]
@@ -403,17 +566,37 @@
 				if (score.value === 1) {
 					destroy(plate)
 				}
-			})
 
-
-			player.onCollideUpdate("coin", (coin) => { // if .player hits .coin tell .coin that it was hit then distroy itself if so...
+				player.onCollideUpdate("coin", (coin) => { // if .player hits .coin tell .coin that it was hit then destroy itself if so...
 				destroy(coin)
 			})
+		})
+
+		player.onCollide("drink", (enemy) => { // if .player hits .energy +1 to score then display [newValue]
+				powerup.value += 1
+				powerup.text = "Powering Up!"
+		})
 
 
 
+			player.onCollideUpdate("drink", (drink) => { // if .player hits .energy tell .coin that it was hit then destroy itself if so...
+				destroy(drink)
+			wait(rand(15, 15), () => {
+					powerup.value -= 1
+					powerup.text = "Powering Down..."
+			});
+			})
+		})
+
+
+
+
+			// preload the whole UI of the game
+			go("Game");
+			go("Menu");
 
 		</script>
-
 </body>
 </html>
+
+
